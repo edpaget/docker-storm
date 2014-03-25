@@ -1,0 +1,15 @@
+storm.local.dir: "/opt/storm-data"
+nimbus.host: "nimbus.storm.dev.docker"
+supervisor.slots.ports:
+  - 6700
+  - 6701
+  - 6702
+  - 6703
+storm.messaging.transport: "backtype.storm.messaging.netty.Context"
+storm.messaging.netty.server_worker_threads: 1
+storm.messaging.netty.client_worker_threads: 1
+storm.messaging.netty.buffer_size: 5242880
+storm.messaging.netty.max_retries: 100
+storm.messaging.netty.max_wait_ms: 1000
+storm.messaging.netty.min_wait_ms: 100
+storm.zookeeper.servers:
