@@ -20,7 +20,7 @@ NIMBUS=
 UI=
 SUPERVISOR=
 ZKS=
-STORM_VERSION=0.9.1-incubating
+STORM_VERSION=0.9.2-incubating-SNAPSHOT
 
 while getopts "hnusz:" OPTION
 do
@@ -62,16 +62,13 @@ done
 cat << EOF > /etc/supervisor/conf.d/supervisord.conf
 [supervisord]
 nodaemon=true
-
-[program:sshd]
-command=/usr/sbin/sshd -D
 EOF
 
 if [[ $NIMBUS ]];
 then
 cat << EOF >> /etc/supervisor/conf.d/supervisord.conf
 [program:nimbus]
-command=/opt/apache-storm-0.9.1-incubating/bin/storm nimbus
+command=/opt/apache-storm-$STORM_VERSION/bin/storm nimbus
 EOF
 fi
 
@@ -79,7 +76,7 @@ if [[ $UI ]];
 then
 cat << EOF >> /etc/supervisor/conf.d/supervisord.conf
 [program:ui]
-command=/opt/apache-storm-0.9.1-incubating/bin/storm ui
+command=/opt/apache-storm-$STORM_VERSION/bin/storm ui
 EOF
 fi
 
@@ -87,7 +84,7 @@ if [[ $SUPERVISOR ]];
 then
 cat << EOF >> /etc/supervisor/conf.d/supervisord.conf
 [program:supervisor]
-command=/opt/apache-storm-0.9.1-incubating/bin/storm supervisor
+command=/opt/apache-storm-$STORM_VERSION/bin/storm supervisor
 EOF
 fi
 
