@@ -13,6 +13,7 @@ usage() {
     -u Run UI
     -s Run Supervisor
     -z list of zookeeper nodes (required)
+    -x nimbus host name (required)
     "
 }
 
@@ -20,9 +21,10 @@ NIMBUS=
 UI=
 SUPERVISOR=
 ZKS=
-STORM_VERSION=0.9.2-incubating-SNAPSHOT
+NIMBUS_HOST=
+STORM_VERSION=0.9.2-incubating
 
-while getopts "hnusz:" OPTION
+while getopts "hnusz:x:" OPTION
 do
   case $OPTION in
     h)
@@ -31,6 +33,9 @@ do
       ;;
     z)
       ZKS=$OPTARG
+      ;;
+    x)
+      NIMBUS_HOST=$OPTARG
       ;;
     n)
       NIMBUS=true
@@ -54,6 +59,14 @@ then
   exit 1
 fi
 
+if [[ -z $NIMBUS_HOST ]];
+then
+  usage
+  exit 1
+fi
+
+echo -e "\nnimbus.host: $NIMBUS_HOST" >> "/opt/apache-storm-$STORM_VERSION/conf/storm.yaml"
+echo -e "storm.zookeeper.servers:" >> "/opt/apache-storm-$STORM_VERSION/conf/storm.yaml"
 IFS=',' read -ra ZK <<< "$ZKS"
 for i in "${!ZK[@]}"; do
   echo -e "  - ${ZK[$i]}" >> "/opt/apache-storm-$STORM_VERSION/conf/storm.yaml"
